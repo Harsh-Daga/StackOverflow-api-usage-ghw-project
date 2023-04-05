@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>Stack Overflow API Use case MLH GHW
+        </title>
+        <link rel="stylesheet" href="style.css"/>
+    </head>
+    <body>
+
+        <h1>Stack Overflow Users</h1>
+        <h3>Get Name and Reputation of all Users here!!!</h3>
+
+        <div class="container">
+            <b>Name:
+            </b>
+            <span id="userName"></span>
+            <br/><br/>
+            <b>Reputation:
+            </b>
+            <span id="userRep"></span>
+            <br/>
+            <br/>
+            <button id="next"><b>Get Next User</b></button>
+        </div>
+
+
+        <h4>Global Hack Week Project, Submitted By <b>Harsh Daga</b></h4>
+
+
+        <script>
+            async function getStackExchangeUsers(i) {
+                const apiUrl = "https://api.stackexchange.com/2.3/users?order=desc&sort=reputation&site=stackoverflow";
+
+
+                const response = await fetch(apiUrl);
+
+                const data = await response.json();
+                const usersResponse = data.items.map(item => ({accountId: item.account_id, displayName: item.display_name, profileImage: item.profile_image, reputation: item.reputation}));
+
+                const User = usersResponse[i];
+                document.getElementById('userName').textContent = User.displayName;
+                document.getElementById('userRep').textContent = User.reputation;
+            }
+
+            let i = 0;
+            getStackExchangeUsers(i);
+            const getUser = document.getElementById("next");
+
+            const handleClick = () => {
+                i++;
+                getStackExchangeUsers(i);
+            }
+
+            getUser.addEventListener("click", handleClick);
+
+        </script>
+    </body>
+</html>
